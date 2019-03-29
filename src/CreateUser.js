@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import UserForm from "./UserForm";
 
 class CreateUser extends Component {
   constructor() {
@@ -17,25 +18,8 @@ class CreateUser extends Component {
     this.props.addUser(this.state).catch(e => console.log(e.message));
   };
   render() {
-    const fields = ["name", "bio", "rank"];
     return (
-      <form onSubmit={this.handleSubmit}>
-        {fields.map(field => (
-          <div key={field}>
-            <input
-              name={field}
-              type="text"
-              value={this.state[field]}
-              onChange={this.handleChange}
-              placeholder={field}
-              className="form-control"
-            />
-          </div>
-        ))}
-        <button type="submit" className="btn btn-primary">
-          Submit
-        </button>
-      </form>
+        <UserForm handleChange={this.handleChange} handleSubmit={this.handleSubmit} state={this.state}/>
     );
   }
 }
