@@ -1,6 +1,6 @@
 import React from "react";
 
-const Users = ({ users }) => {
+const Users = ({ users, handleDelete }) => {
   return (
     <ul className="list-group">
       {users.map(user => (
@@ -16,7 +16,7 @@ const Users = ({ users }) => {
             Ranked {user.rank}
           </span>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
-            <button type="button" className="btn btn-danger">
+            <button type="button" className="btn btn-danger" onClick={() => handleDelete(user.id)}>
               Delete
             </button>
             <a href={`/users/${user.id}`}>Edit</a>

@@ -15,6 +15,12 @@ app.get('/api/users', (req, res, next) => {
         .catch(e => console.log(e));
 });
 
+app.delete(`/api/users/:id`, (req, res, next) => {
+    return User.findOne({ where: { id: req.params.id } })
+        .then(user => user.destroy())
+        .then(() => res.sendStatus(204));
+});
+
 db.authenticate()
     .then(() => db.sync({ force: true }))
     .then(() => seed())
