@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+import { Route } from "react-router-dom";
 import axios from "axios";
+import Nav from "./Nav";
 
 class Main extends Component{
     constructor(){
@@ -18,6 +20,7 @@ class Main extends Component{
         return (
             <div className="container">
                 <h1>Acme Users Rank</h1>
+                <Route render={({ location }) => <Nav location={location} users={users} />} />
                 <ul className="list-group">
                 {
                     users.map(user => (
@@ -31,6 +34,7 @@ class Main extends Component{
                             </span>
                             <div style={{ display: "flex", justifyContent: "space-between" }}>
                             <button type="button" className="btn btn-danger">Delete</button>
+                            <a href={`/users/${user.id}`}>Edit</a>
                             </div>
                         </li>
                     ))
