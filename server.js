@@ -10,7 +10,7 @@ app.get('/app.js', (req, res, next)=> res.sendFile(path.join(__dirname, 'dist', 
 
 app.get('/', (req, res, next)=> res.sendFile(path.join(__dirname, 'index.html')));
 app.get('/api/users', (req, res, next) => {
-    User.findAll()
+    User.findAll({ order: [["rank", "ASC"]] })
         .then(users => res.json(users))
         .catch(e => console.log(e));
 });
