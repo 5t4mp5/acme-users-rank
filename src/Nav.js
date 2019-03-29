@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 const Nav = ({ location, users }) => {
   const tabs = ["Home", "Users", "Create A User", "Top Ranked"];
   const linkMap = {
-    Home: "/home",
+    Home: "/",
     Users: "/users",
-    "Create A User": "/create",
-    "Top Ranked": "/top"
+    "Create A User": "/users/create",
+    "Top Ranked": "/users/top"
   };
   return (
     <ul className="nav nav-tabs" style={{ marginBottom: "10px" }}>
