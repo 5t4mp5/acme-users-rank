@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Nav = ({ location, users }) => {
-  const tabs = ["Home", "Users", "Create A User", "Top Ranked"];
+const Nav = ({ location, users, topRanked }) => {
+  const tabs = ["Home", "Users", "Create A User"];
+  if (users.length) tabs.push("Top Ranked");
   const linkMap = {
     Home: "/",
     Users: "/users",
@@ -19,7 +20,10 @@ const Nav = ({ location, users }) => {
               location.pathname === linkMap[tab] ? "active" : ""
             }`}
           >
-            {tab} {tab === "Users" ? `(${users.length})` : ""}
+            {tab} {tab === "Users" ? `(${users.length})` : ""}{" "}
+            {tab === "Top Ranked"
+              ? `(${topRanked().map(user => user.name).join(", ")})`
+              : ""}
           </Link>
         </li>
       ))}

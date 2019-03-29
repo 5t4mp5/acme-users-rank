@@ -14,7 +14,12 @@ module.exports = () => {
     }),
     User.create({
       name: "Karl",
-      bio: "A whole other kind of Marx",
+      bio: "A whole other kind of Marx.",
+      rank: 1
+    }),
+    User.create({
+      name: "Richard",
+      bio: "Will be right here waiting for you.",
       rank: 1
     })
   ]);
