@@ -5,6 +5,7 @@ import Nav from "./Nav";
 import Home from "./Home";
 import Users from "./Users";
 import TopRanked from "./TopRanked";
+import CreateUser from "./CreateUser";
 
 class Main extends Component {
   constructor() {
@@ -31,6 +32,11 @@ class Main extends Component {
     const bestRank = users.sort((a, b) => a.rank - b.rank)[0].rank;
     return users.filter(user => user.rank === bestRank);
   };
+  addUser = (user) => {
+    return axios.post("/api/users", user)
+      .then(() => this.load())
+      .catch(e => console.log(e.message));
+  }
   render() {
     const { users } = this.state;
     const { history } = this.props;
@@ -53,6 +59,7 @@ class Main extends Component {
               />
             )}
           />
+          <Route path="/users/create" render={() => <CreateUser addUser={this.addUser} />} />
           <Route
             path="/users"
             render={() => (
