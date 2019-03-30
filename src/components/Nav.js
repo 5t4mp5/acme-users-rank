@@ -1,5 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+
+const mapStateToProps = state => ({
+  users: state.users
+});
 
 const Nav = ({ location, users, topRanked }) => {
   const tabs = ["Home", "Users", "Create A User"];
@@ -22,7 +27,7 @@ const Nav = ({ location, users, topRanked }) => {
           >
             {tab} {tab === "Users" ? `(${users.length})` : ""}{" "}
             {tab === "Top Ranked"
-              ? `(${topRanked().map(user => user.name).join(", ")})`
+              ? `(${topRanked.map(user => user.name).join(", ")})`
               : ""}
           </Link>
         </li>
@@ -31,4 +36,4 @@ const Nav = ({ location, users, topRanked }) => {
   );
 };
 
-export default Nav;
+export default connect(mapStateToProps)(Nav);

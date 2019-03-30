@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize");
-const db = new Sequelize(process.env.DATABASE_URL, { logging: false });
+const db = new Sequelize(process.env.DATABASE_URL, { logging: true });
 
 const User = db.define("user", {
     name:{

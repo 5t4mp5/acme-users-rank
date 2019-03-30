@@ -17,7 +17,9 @@ app.get("/", (req, res, next) =>
 );
 app.get("/api/users", (req, res, next) => {
   User.findAll({ order: [["rank", "ASC"]] })
-    .then(users => res.json(users))
+    .then(users => {
+      res.json(users);
+    })
     .catch(e => console.log(e));
 });
 
@@ -41,7 +43,7 @@ app.put("/api/users/:id", (req, res, next) => {
 });
 
 app.delete(`/api/users/:id`, (req, res, next) => {
-  return User.findOne({ where: { id: req.params.id } })
+  User.findOne({ where: { id: parseInt(req.params.id) } })
     .then(user => user.destroy())
     .then(() => res.sendStatus(204));
 });

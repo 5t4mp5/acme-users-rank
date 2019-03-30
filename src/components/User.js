@@ -1,5 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { deleteUser } from "../store";
+
+const mapDispatchToProps = dispatch => {
+  return { handleDelete: (id) => dispatch(deleteUser(id)) };
+};
 
 const User = ({ user, handleDelete }) => {
   return (
@@ -25,4 +31,4 @@ const User = ({ user, handleDelete }) => {
   );
 };
 
-export default User;
+export default connect(null, mapDispatchToProps)(User);
