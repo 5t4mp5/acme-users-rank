@@ -1,12 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { topRanked } from  "../store";
 
 const mapStateToProps = state => ({
   users: state.users
 });
 
-const Nav = ({ location, users, topRanked }) => {
+const Nav = ({ location, users }) => {
   const tabs = ["Home", "Users", "Create A User"];
   if (users.length) tabs.push("Top Ranked");
   const linkMap = {
@@ -27,7 +28,7 @@ const Nav = ({ location, users, topRanked }) => {
           >
             {tab} {tab === "Users" ? `(${users.length})` : ""}{" "}
             {tab === "Top Ranked"
-              ? `(${topRanked.map(user => user.name).join(", ")})`
+              ? `(${topRanked(users).map(user => user.name).join(", ")})`
               : ""}
           </Link>
         </li>

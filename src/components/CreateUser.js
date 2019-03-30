@@ -27,13 +27,10 @@ class CreateUser extends Component {
     }
   }
   handleChange = evt => {
-    this.setState({ [evt.target.name]: evt.target.value }, () => {
-      console.log(this.state);
-    });
+    this.setState({ [evt.target.name]: evt.target.value });
   };
   handleSubmit = evt => {
     evt.preventDefault();
-    console.log("SUBMIT STATE", this.state);
     const saveUser = this.props.match.params.id
       ? this.props.updateUser
       : this.props.addUser;

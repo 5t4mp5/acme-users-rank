@@ -33,7 +33,6 @@ export const deleteUser = id => {
     return dispatch => {
       axios
         .delete(`/api/users/${id}`)
-        .then(() => console.log("DISPATCHED DELETE"))
         .then(() => updateState(dispatch))
         .catch(e => console.log(e.message));
     };
@@ -46,6 +45,12 @@ export const updateUser = user => {
         .then(() => updateState(dispatch))
         .catch(e => console.log(e.message));
     };
+};
+
+export const topRanked = users => {
+  if (!users.length) return [];
+  const bestRank = users.sort((a, b) => a.rank - b.rank)[0].rank;
+  return users.filter(user => user.rank === bestRank);
 };
 
 
