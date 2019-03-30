@@ -1,6 +1,6 @@
 import React from "react";
 
-const UserForm = ({ handleSubmit, handleChange, state }) => {
+const UserForm = ({ handleSubmit, handleChange, state, history }) => {
   const fields = ["name", "bio", "rank"];
   return (
     <form onSubmit={handleSubmit}>
@@ -18,6 +18,9 @@ const UserForm = ({ handleSubmit, handleChange, state }) => {
       ))}
       <button type="submit" className="btn btn-primary">
         Submit
+      </button>
+      <button type="button" onClick={() => history.push("/users")}>
+        Cancel
       </button>
     </form>
   );

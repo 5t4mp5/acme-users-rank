@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const User = ({ user, handleDelete }) => {
   return (
@@ -18,7 +19,7 @@ const User = ({ user, handleDelete }) => {
         >
           Delete
         </button>
-        <a href={`/users/${user.id}`}>Edit</a>
+        <Link to={`/users/${user.id}`}>Edit</Link>
       </div>
     </li>
   );

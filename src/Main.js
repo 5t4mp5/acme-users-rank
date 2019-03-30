@@ -37,6 +37,11 @@ class Main extends Component {
       .then(() => this.load())
       .catch(e => console.log(e.message));
   }
+  updateUser = (user) => {
+    return axios.put(`/api/users/${user.id}`, user)
+      .then(() => this.load())
+      .catch(e => console.log(e));
+  };
   render() {
     const { users } = this.state;
     const { history } = this.props;
@@ -59,7 +64,8 @@ class Main extends Component {
               />
             )}
           />
-          <Route path="/users/create" render={() => <CreateUser addUser={this.addUser} />} />
+          <Route path="/users/create" render={() => <CreateUser saveUser={this.addUser} history={history} />} />
+          <Route path="/users/:id" render={({ match }) => <CreateUser saveUser={this.updateUser} history={history} match={match} />} />
           <Route
             path="/users"
             render={() => (

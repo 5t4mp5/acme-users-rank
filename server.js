@@ -21,9 +21,22 @@ app.get("/api/users", (req, res, next) => {
     .catch(e => console.log(e));
 });
 
+app.get("/api/users/:id", (req, res, next) => {
+  User.findOne({ where:{ id: req.params.id } })
+    .then(user => res.json(user))
+    .catch(next);
+});
+
 app.post("/api/users", (req, res, next) => {
   User.create(req.body)
     .then(user => res.status(201).json(user))
+    .catch(next);
+});
+
+app.put("/api/users/:id", (req, res, next) => {
+  User.findOne({ where: { id: req.params.id } })
+    .then(user => user.update(req.body))
+    .then(user => res.json(user))
     .catch(next);
 });
 
