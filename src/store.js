@@ -27,18 +27,11 @@ export const updateState = dispatch => {
 
 export const addUser = user => {
   return dispatch => {
-    return new Promise((res, rej) => {
-      axios
-        .post("/api/users", user)
-        .then(() => updateState(dispatch))
-        .then(() => dispatch(null, []))
-        .then(() => res(user))
-        .catch(e => {
-          console.log(e);
-          dispatch(refreshState(null, e.response.data.errors));
-          rej(e.response.data.errors);
-        });
-    });
+    axios
+      .post("/api/users", user)
+      .then(() => updateState(dispatch))
+      .then(() => dispatch(null, []))
+      .catch(e => dispatch(refreshState(null, e.response.data.errors)));
   };
 };
 
@@ -57,9 +50,7 @@ export const updateUser = user => {
       .put(`/api/users/${user.id}`, user)
       .then(() => updateState(dispatch))
       .then(() => dispatch(null, []))
-      .catch(e => {
-        dispatch(refreshState(null, e.response.data.errors));
-      });
+      .catch(e => dispatch(refreshState(null, e.response.data.errors)));
   };
 };
 

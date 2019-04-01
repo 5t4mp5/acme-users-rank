@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import store, { addUser, updateUser } from "../store";
+import { addUser, updateUser } from "../store";
 
 const mapStateToProps = state => {
   return { users: state.users, errors: state.errors };
@@ -21,16 +21,24 @@ class CreateUser extends Component {
       rank: ""
     };
   }
-  componentDidMount() {
+  load = () => {
     if (this.props.match.params.id) {
       this.setState(
           this.props.users.find(user => user.id === parseInt(this.props.match.params.id))
       );
+    }else{
+      this.setState({ name: "", bio: "", rank: "" });
     }
   }
+  componentDidMount() {
+    this.load();
+  }
   componentDidUpdate(prevProps){
-    if(this.props.users.length !== prevProps.users.length){
+    if(this.props.users !== prevProps.users){
       this.props.history.push("/users");
+    }
+    if(this.props.match !== prevProps.match){
+      this.load();
     }
   }
   handleChange = evt => {
