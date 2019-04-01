@@ -2,6 +2,11 @@ const Sequelize = require("sequelize");
 const db = new Sequelize(process.env.DATABASE_URL, { logging: false });
 
 const User = db.define("user", {
+    id: {
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
+        primaryKey: true
+    },
     name:{
         type: Sequelize.STRING,
         validate: {

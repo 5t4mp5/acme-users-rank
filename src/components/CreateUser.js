@@ -24,7 +24,7 @@ class CreateUser extends Component {
   load = () => {
     if (this.props.match.params.id) {
       this.setState(
-          this.props.users.find(user => user.id === parseInt(this.props.match.params.id))
+          this.props.users.find(user => user.id === this.props.match.params.id)
       );
     }else{
       this.setState({ name: "", bio: "", rank: "" });
@@ -75,7 +75,7 @@ class CreateUser extends Component {
             className="btn btn-primary"
             disabled={!this.state.name || !this.state.bio || !this.state.rank}
           >
-            Submit
+            {this.props.location.pathname === "/users/create" ? "Create" : "Update"}
           </button>
           <button
             type="button"

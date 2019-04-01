@@ -13,7 +13,7 @@ const User = ({ user, handleDelete }) => {
       <h3>{user.name}</h3>
       {user.bio}
       <br />
-      <span className="badge badge-success" style={{ marginBottom: "10px" }}>
+      <span className="badge badge-success" style={{ marginBottom: "10px", marginTop: "10px" }}>
         Ranked {user.rank}
       </span>
       <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -24,7 +24,7 @@ const User = ({ user, handleDelete }) => {
         >
           Delete
         </button>
-        <Link to={`/users/${user.id}`}>Edit</Link>
+        <Link to={`/users/${user.id}`} className= "btn btn-info">Edit</Link>
       </div>
     </li>
   );

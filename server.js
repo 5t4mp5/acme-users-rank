@@ -43,7 +43,7 @@ app.put("/api/users/:id", (req, res, next) => {
 });
 
 app.delete(`/api/users/:id`, (req, res, next) => {
-  User.findOne({ where: { id: parseInt(req.params.id) } })
+  User.findOne({ where: { id: req.params.id } })
     .then(user => user.destroy())
     .then(() => res.sendStatus(204))
     .catch(next);
@@ -51,7 +51,6 @@ app.delete(`/api/users/:id`, (req, res, next) => {
 
 app.use((error, req, res, next) => {
   console.log(Object.keys(error));
-  console.log(error.name, error.errors[0].message);
   let errors = [error];
   if(error.errors){
     error = error.errors.map(error => { return error.message;});
