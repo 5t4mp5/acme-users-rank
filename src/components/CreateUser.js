@@ -3,9 +3,13 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import store, { addUser, updateUser } from "../store";
 
+const mapStateToProps = state => {
+  return { users: state.users, errors: state.errors };
+};
+
 const mapDispatchToProps = dispatch => ({
-  addUser: (user) => dispatch(addUser(user)),
-  updateUser: (user) => dispatch(updateUser(user))
+  addUser: user => dispatch(addUser(user)),
+  updateUser: user => dispatch(updateUser(user))
 });
 
 class CreateUser extends Component {
@@ -20,10 +24,13 @@ class CreateUser extends Component {
   componentDidMount() {
     if (this.props.match.params.id) {
       this.setState(
-        store
-          .getState()
-          .users.find(user => user.id === parseInt(this.props.match.params.id))
+          this.props.users.find(user => user.id === parseInt(this.props.match.params.id))
       );
+    }
+  }
+  componentDidUpdate(prevProps){
+    if(this.props.users.length !== prevProps.users.length){
+      this.props.history.push("/users");
     }
   }
   handleChange = evt => {
@@ -34,9 +41,8 @@ class CreateUser extends Component {
     const saveUser = this.props.match.params.id
       ? this.props.updateUser
       : this.props.addUser;
-    
+
     saveUser(this.state);
-    this.props.history.push("/users");
   };
   render() {
     const fields = ["name", "bio", "rank"];
@@ -55,18 +61,30 @@ class CreateUser extends Component {
             />
           </div>
         ))}
-        <button type="submit" className="btn btn-primary">
-          Submit
-        </button>
-        <button type="button" onClick={() => history.push("/users")}>
-          Cancel
-        </button>
+        <div style={{ marginTop: "10px", marginBottom: "10px" }}>
+          <button
+            type="submit"
+            className="btn btn-primary"
+            disabled={!this.state.name || !this.state.bio || !this.state.rank}
+          >
+            Submit
+          </button>
+          <button
+            type="button"
+            onClick={() => history.push("/users")}
+            className="btn btn-warning"
+          >
+            Cancel
+          </button>
+        </div>   
       </form>
     );
   }
 }
 
-export default withRouter(connect(
-  null,
-  mapDispatchToProps
-)(CreateUser));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(CreateUser)
+);

@@ -2,13 +2,14 @@ import React from "react";
 import User from "./User";
 import { connect } from "react-redux";
 import { topRanked } from "../store";
+import { withRouter } from "react-router-dom";
 
 const mapStateToProps = state => {
   return { users: state.users }
 };
 
 const Users = ({ users, location }) => {
-if(location.pathname === "/top"){
+if(location.pathname === "/users/top"){
   users = topRanked(users);
 }
   return (
@@ -20,4 +21,4 @@ if(location.pathname === "/top"){
   );
 };
 
-export default connect(mapStateToProps)(Users);
+export default withRouter(connect(mapStateToProps)(Users));

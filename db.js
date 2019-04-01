@@ -1,11 +1,15 @@
 const Sequelize = require("sequelize");
-const db = new Sequelize(process.env.DATABASE_URL, { logging: true });
+const db = new Sequelize(process.env.DATABASE_URL, { logging: false });
 
 const User = db.define("user", {
     name:{
         type: Sequelize.STRING,
         validate: {
             notEmpty: true
+        },
+        unique: {
+            args: true,
+            msg: "User name already in use!"
         }
     },
     bio:{
@@ -19,8 +23,8 @@ const User = db.define("user", {
         allowNull: false,
         validate:{
             notNull: true,
+            isInt: true,
             min: 1,
-            max: 10
         }
     }
 });
