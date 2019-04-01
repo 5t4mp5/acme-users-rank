@@ -37,7 +37,7 @@ class CreateUser extends Component {
     if(this.props.users !== prevProps.users){
       this.props.history.push("/users");
     }
-    if(this.props.match !== prevProps.match){
+    if(this.props.location.pathname !== prevProps.location.pathname){
       this.load();
     }
   }
