@@ -7,10 +7,12 @@ const mapStateToProps = state => {
   return { users: state.users, errors: state.errors };
 };
 
-const mapDispatchToProps = dispatch => ({
-  addUser: user => dispatch(addUser(user)),
-  updateUser: user => dispatch(updateUser(user))
-});
+const mapDispatchToProps = dispatch => {
+  return {
+    addUser: user => dispatch(addUser(user)),
+    updateUser: user => dispatch(updateUser(user))
+  };
+};
 
 class CreateUser extends Component {
   constructor() {
@@ -24,20 +26,20 @@ class CreateUser extends Component {
   load = () => {
     if (this.props.match.params.id) {
       this.setState(
-          this.props.users.find(user => user.id === this.props.match.params.id)
+        this.props.users.find(user => user.id === this.props.match.params.id)
       );
-    }else{
+    } else {
       this.setState({ name: "", bio: "", rank: "" });
     }
-  }
+  };
   componentDidMount() {
     this.load();
   }
-  componentDidUpdate(prevProps){
-    if(this.props.users !== prevProps.users){
+  componentDidUpdate(prevProps) {
+    if (this.props.users !== prevProps.users) {
       this.props.history.push("/users");
     }
-    if(this.props.location.pathname !== prevProps.location.pathname){
+    if (this.props.location.pathname !== prevProps.location.pathname) {
       this.load();
     }
   }
@@ -75,16 +77,19 @@ class CreateUser extends Component {
             className="btn btn-primary"
             disabled={!this.state.name || !this.state.bio || !this.state.rank}
           >
-            {this.props.location.pathname === "/users/create" ? "Create" : "Update"}
+            {this.props.location.pathname === "/users/create"
+              ? "Create"
+              : "Update"}
           </button>
           <button
             type="button"
             onClick={() => history.push("/users")}
-            className="btn btn-warning"
+            className="btn btn-default"
+            style={{ backgroundColor: "gray" }}
           >
             Cancel
           </button>
-        </div>   
+        </div>
       </form>
     );
   }

@@ -4,7 +4,7 @@ module.exports = () => {
   return Promise.all([
     User.create({
       name: "Groucho Marx",
-      bio: "Would never join any club that would have him as a member",
+      bio: "Would never join any club that would have him as a member.",
       rank: 1
     }),
     User.create({
