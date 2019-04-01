@@ -5,26 +5,26 @@ const User = db.define("user", {
     name:{
         type: Sequelize.STRING,
         validate: {
-            notEmpty: true
+            notEmpty: { error: "Please enter a name" }
         },
         unique: {
             args: true,
-            msg: "User name already in use!"
+            msg: "User name already in use"
         }
     },
     bio:{
         type: Sequelize.TEXT,
         validate:{
-            notEmpty: true
+            notEmpty: { error: "Please enter some bio text" }
         }
     },
     rank:{
         type: Sequelize.INTEGER,
         allowNull: false,
         validate:{
-            notNull: true,
-            isInt: true,
-            min: 1,
+            notNull: { error: "Please enter a rank" },
+            isInt: { msg: "Rank must be a number" },
+            min: { args: 1, msg: "Rank must be greater than 1"}
         }
     }
 });

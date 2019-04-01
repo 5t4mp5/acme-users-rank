@@ -10,8 +10,7 @@ const mapDispatchToProps = dispatch => {
 const User = ({ user, handleDelete }) => {
   return (
     <li className="list-group-item">
-      {user.name}
-      <br />
+      <h3>{user.name}</h3>
       {user.bio}
       <br />
       <span className="badge badge-success" style={{ marginBottom: "10px" }}>
