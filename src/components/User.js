@@ -14,7 +14,7 @@ const User = ({ user, handleDelete, updateUser }) => {
   return (
     <li className="list-group-item">
       <h3>{user.name}</h3>
-      {user.bio}
+      <span style={{ fontStyle: "italic" }}>{user.bio}</span>
       <br />
       <span
         className="badge badge-success"

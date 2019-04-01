@@ -17,12 +17,12 @@ export const clearErrors = dispatch => {
 };
 
 export const updateState = dispatch => {
-  return axios
+  axios
     .get("/api/users")
     .then(response => response.data)
     .then(users => refreshState(users))
     .then(action => dispatch(action))
-    .catch(e => dispatch(refreshState(null, e.response.data.errors.errors)));
+    .catch(e => dispatch(refreshState(null, e.response ? e.response.data.errors : [e.message])));
 };
 
 export const addUser = user => {
@@ -31,7 +31,7 @@ export const addUser = user => {
       .post("/api/users", user)
       .then(() => updateState(dispatch))
       .then(() => dispatch(null, []))
-      .catch(e => dispatch(refreshState(null, e.response.data.errors)));
+      .catch(e => dispatch(refreshState(null, e.response ? e.response.data.errors : [e.message])));
   };
 };
 
@@ -40,7 +40,7 @@ export const deleteUser = id => {
     axios
       .delete(`/api/users/${id}`)
       .then(() => updateState(dispatch))
-      .catch(e => dispatch(refreshState(null, e.response.data.errors)));
+      .catch(e => dispatch(refreshState(null, e.response ? e.response.data.errors : [e.message])));
   };
 };
 
@@ -50,7 +50,7 @@ export const updateUser = user => {
       .put(`/api/users/${user.id}`, user)
       .then(() => updateState(dispatch))
       .then(() => dispatch(null, []))
-      .catch(e => dispatch(refreshState(null, e.response.data.errors)));
+      .catch(e => dispatch(refreshState(null, e.response ? e.response.data.errors : [e.message])));
   };
 };
 
