@@ -13,7 +13,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    updateState: () => dispatch(updateState),
+    updateState: () => dispatch(updateState()),
     clearErrors: () => dispatch(clearErrors)
   };
 };
@@ -60,7 +60,7 @@ class Main extends Component {
                 error.errors.map((_error, j) => {
                   return <li key={i + j + _error.message}>{_error.message}</li>;
                 })
-              ) : <li key={i + error.message}>{error}</li>;
+              ) : <li key={i + error.message}>{error.message}</li>;
             })}
           </ul>
         ) : (
