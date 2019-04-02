@@ -9,8 +9,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addUser: (user, history) => dispatch(addUser(user, history)),
-    updateUser: (user, history) => dispatch(updateUser(user, history)),
+    addUser: user => dispatch(addUser(user)),
+    updateUser: user => dispatch(updateUser(user)),
     updateState: () => dispatch(updateState())
   };
 };
@@ -34,9 +34,9 @@ class CreateUser extends Component {
     }
   };
   componentDidMount() {
-    if(this.props.match.params.id){
+    if (this.props.match.params.id && !this.props.users.length) {
       this.props.updateState().then(() => this.load());
-    }else this.load();
+    } else this.load();
   }
   componentDidUpdate(prevProps) {
     if (this.props.location.pathname !== prevProps.location.pathname) {

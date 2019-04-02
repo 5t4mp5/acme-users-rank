@@ -5,13 +5,13 @@ import { topRanked } from "../store";
 import { withRouter } from "react-router-dom";
 
 const mapStateToProps = state => {
-  return { users: state.users }
+  return { users: state.users };
 };
 
 const Users = ({ users, location }) => {
-if(location.pathname === "/users/top"){
-  users = topRanked(users);
-}
+  if (location.pathname === "/users/top") {
+    users = topRanked(users);
+  }
   return (
     <ul className="list-group">
       {users.map(user => (

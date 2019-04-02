@@ -24,7 +24,7 @@ app.get("/api/users", (req, res, next) => {
 });
 
 app.get("/api/users/:id", (req, res, next) => {
-  User.findOne({ where:{ id: req.params.id } })
+  User.findOne({ where: { id: req.params.id } })
     .then(user => res.json(user))
     .catch(next);
 });
@@ -38,7 +38,7 @@ app.post("/api/users", (req, res, next) => {
 app.put("/api/users/:id", (req, res, next) => {
   User.findOne({ where: { id: req.params.id } })
     .then(user => user.update(req.body))
-    .then(user => res.json(user))
+    .then(user => res.status(202).json(user))
     .catch(next);
 });
 
@@ -50,15 +50,17 @@ app.delete(`/api/users/:id`, (req, res, next) => {
 });
 
 app.use((error, req, res, next) => {
-  console.log(error.errors)
+  console.log(error.errors);
   console.log(Object.keys(error));
   let errors = [error];
-  if(error.errors){
-    error = error.errors.map(error => { return error.message;});
-  }else if(error.original){
-    errors=[error.original.message];
+  if (error.errors) {
+    error = error.errors.map(_error => {
+      return _error.message;
+    });
+  } else if (error.original) {
+    errors = [error.original.message];
   }
-  res.status(error.status || 500).send({errors});
+  res.status(error.status || 500).send({ errors });
 });
 
 db.authenticate()

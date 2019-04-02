@@ -27,7 +27,6 @@ class Main extends Component {
       this.props.clearErrors();
   }
   render() {
-    const { history } = this.props;
     return (
       <div className="container">
         <h1>Acme Users Rank</h1>
@@ -39,11 +38,11 @@ class Main extends Component {
           />
           <Route
             path="/users/create"
-            render={() => <CreateUser history={history} />}
+            render={({ history }) => <CreateUser history={history} />}
           />
           <Route
             path="/users/:id"
-            render={({ match }) => (
+            render={({ match, history }) => (
               <CreateUser history={history} match={match} />
             )}
           />

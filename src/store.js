@@ -12,6 +12,11 @@ const refreshState = (users, errors = []) => ({
   errors
 });
 
+const handleError = (dispatch, e, text) => {
+  dispatch(refreshState(null, e.response ? e.response.data.errors : []));
+  throw new Error(text);
+};
+
 export const clearErrors = dispatch => {
   dispatch(refreshState(null, []));
 };
@@ -26,8 +31,7 @@ export const updateState = () => {
         return users;
       })
       .catch(e => {
-        dispatch(refreshState(null, e.response ? e.response.data.errors : []));
-        throw new Error("ERROR GETTING UPDATE FROM DB");
+        handleError(dispatch, e, "ERROR GETTING UPDATE FROM DB");
       });
   };
 };
@@ -41,8 +45,7 @@ export const addUser = user => {
         return response.data;
       })
       .catch(e => {
-        dispatch(refreshState(null, e.response ? e.response.data.errors : []));
-        throw new Error("ERROR CREATING USER");
+        handleError(dispatch, e, "ERROR CREATING USER");
       });
   };
 };
@@ -59,10 +62,7 @@ export const deleteUser = id => {
         clearErrors(dispatch);
         return user;
       })
-      .catch(e => {
-        dispatch(refreshState(null, e.response ? e.response.data.errors : []));
-        throw new Error("ERROR DELETING USER");
-      });
+      .catch(e => handleError(dispatch, e, "ERROR DELETING USER"));
   };
 };
 
@@ -74,10 +74,7 @@ export const updateUser = user => {
         dispatch(updateState());
         return response.data;
       })
-      .catch(e => {
-        dispatch(refreshState(null, e.response ? e.response.data.errors : []));
-        throw new Error("ERROR UPDATING USER");
-      });
+      .catch(e => handleError(dispatch, e, "ERROR UPDATING USER"));
   };
 };
 

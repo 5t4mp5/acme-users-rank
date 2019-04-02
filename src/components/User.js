@@ -5,12 +5,11 @@ import { deleteUser, updateUser } from "../store";
 
 const mapDispatchToProps = dispatch => {
   return {
-    handleDelete: id => dispatch(deleteUser(id)),
-    updateUser: user => dispatch(updateUser(user))
+    handleDelete: id => dispatch(deleteUser(id))
   };
 };
 
-const User = ({ user, handleDelete, updateUser }) => {
+const User = ({ user, handleDelete }) => {
   return (
     <li className="list-group-item">
       <h3>{user.name}</h3>
