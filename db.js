@@ -28,8 +28,8 @@ const User = db.define("user", {
         allowNull: false,
         validate:{
             notNull: { error: "Please enter a rank" },
-            isInt: { msg: "Rank must be a number" },
-            min: { args: 1, msg: "Rank must be greater than 1"}
+            isInt: { msg: "Rank must be an integer" },
+            min: { args: 1, msg: "Rank must be 1 or greater"}
         }
     }
 });

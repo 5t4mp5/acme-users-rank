@@ -50,6 +50,7 @@ app.delete(`/api/users/:id`, (req, res, next) => {
 });
 
 app.use((error, req, res, next) => {
+  console.log(error.errors)
   console.log(Object.keys(error));
   let errors = [error];
   if(error.errors){

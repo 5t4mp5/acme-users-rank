@@ -19,28 +19,31 @@ export const clearErrors = dispatch => {
 export const updateState = () => {
   return dispatch => {
     return axios
-    .get("/api/users")
-    .then(response => response.data)
-    .then(users => refreshState(users))
-    .then(action => dispatch(action))
-    .catch(e => dispatch(refreshState(null, e.response ? e.response.data.errors : [])));
-  } 
+      .get("/api/users")
+      .then(response => response.data)
+      .then(users => {
+        dispatch(refreshState(users));
+        return users;
+      })
+      .catch(e => {
+        dispatch(refreshState(null, e.response ? e.response.data.errors : []));
+        throw new Error("ERROR GETTING UPDATE FROM DB");
+      });
+  };
 };
 
-export const addUser = (user) => {
+export const addUser = user => {
   return dispatch => {
-    return new Promise((res, rej) => {
-      axios
+    return axios
       .post("/api/users", user)
-      .then(() => dispatch(updateState()))
-      .then(() => dispatch(refreshState(null, [])))
-      .then(() => res(user))
-      .catch(e =>{
-        rej(user);
+      .then(response => {
+        dispatch(updateState());
+        return response.data;
+      })
+      .catch(e => {
         dispatch(refreshState(null, e.response ? e.response.data.errors : []));
-      }); 
-    });
-    
+        throw new Error("ERROR CREATING USER");
+      });
   };
 };
 
@@ -48,26 +51,33 @@ export const deleteUser = id => {
   return dispatch => {
     return axios
       .delete(`/api/users/${id}`)
-      .then(() => dispatch(updateState()))
-      .then(() => dispatch(refreshState(null, [])))
-      .catch(e => dispatch(refreshState(null, e.response ? e.response.data.errors : [])));
+      .then(response => {
+        dispatch(updateState());
+        return response.data;
+      })
+      .then(user => {
+        clearErrors(dispatch);
+        return user;
+      })
+      .catch(e => {
+        dispatch(refreshState(null, e.response ? e.response.data.errors : []));
+        throw new Error("ERROR DELETING USER");
+      });
   };
 };
 
-export const updateUser = (user) => {
+export const updateUser = user => {
   return dispatch => {
-    return  new Promise ((res, rej) => {
-      axios
+    return axios
       .put(`/api/users/${user.id}`, user)
-      .then(() => dispatch(updateState()))
-      .then(() => dispatch(refreshState(null, [])))
-      .then(() => res(user))
+      .then(response => {
+        dispatch(updateState());
+        return response.data;
+      })
       .catch(e => {
-        rej(user);
         dispatch(refreshState(null, e.response ? e.response.data.errors : []));
-      }); 
-    });
-    
+        throw new Error("ERROR UPDATING USER");
+      });
   };
 };
 
