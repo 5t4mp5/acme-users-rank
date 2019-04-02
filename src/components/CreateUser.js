@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { addUser, updateUser } from "../store";
+import { addUser, updateUser, updateState } from "../store";
 
 const mapStateToProps = state => {
   return { users: state.users, errors: state.errors };
@@ -9,8 +9,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addUser: user => dispatch(addUser(user)),
-    updateUser: user => dispatch(updateUser(user))
+    addUser: (user, history) => dispatch(addUser(user, history)),
+    updateUser: (user, history) => dispatch(updateUser(user, history)),
+    updateState: () => dispatch(updateState())
   };
 };
 
@@ -33,14 +34,13 @@ class CreateUser extends Component {
     }
   };
   componentDidMount() {
-    this.load();
+    if(this.props.match.params.id){
+      this.props.updateState().then(() => this.load());
+    }else this.load();
   }
   componentDidUpdate(prevProps) {
-    if (this.props.users !== prevProps.users) {
-      this.props.history.push("/users");
-    }
     if (this.props.location.pathname !== prevProps.location.pathname) {
-      this.load();
+      this.props.updateState().then(() => this.load());
     }
   }
   handleChange = evt => {
@@ -52,7 +52,9 @@ class CreateUser extends Component {
       ? this.props.updateUser
       : this.props.addUser;
 
-    saveUser(this.state);
+    saveUser(this.state)
+      .then(() => this.props.history.push("/users"))
+      .catch(e => console.log(e));
   };
   render() {
     const fields = ["name", "bio", "rank"];
