@@ -15,7 +15,7 @@ const Users = ({ users, location }) => {
   return (
     <ul className="list-group">
       {users.map(user => (
-        <User key={user.id} user={user} />
+        <User key={user.id} user={user} errors={[]} />
       ))}
     </ul>
   );

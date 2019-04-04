@@ -4,7 +4,7 @@ import { withRouter } from "react-router-dom";
 import { addUser, updateUser, updateState } from "../store";
 
 const mapStateToProps = state => {
-  return { users: state.users, errors: state.errors };
+  return { users: state.users };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -21,7 +21,8 @@ class CreateUser extends Component {
     this.state = {
       name: "",
       bio: "",
-      rank: ""
+      rank: "",
+      errors: []
     };
   }
   load = () => {
@@ -54,7 +55,7 @@ class CreateUser extends Component {
 
     saveUser(this.state)
       .then(() => this.props.history.push("/users"))
-      .catch(e => console.log(e));
+      .catch(e => this.setState({ errors: e.response.data.errors }));
   };
   render() {
     const fields = ["name", "bio", "rank"];
@@ -92,6 +93,19 @@ class CreateUser extends Component {
             Cancel
           </button>
         </div>
+        {this.state.errors.length > 0 ? (
+          <ul className="alert alert-danger">
+            {this.state.errors.map((error, i) => {
+              return error.errors ? (
+                error.errors.map((_error, j) => {
+                  return <li key={i + j + _error.message}>{_error.message}</li>;
+                })
+              ) : <li key={i + error.message}>{error.message}</li>;
+            })}
+          </ul>
+        ) : (
+          ""
+        )}
       </form>
     );
   }

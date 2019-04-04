@@ -2,24 +2,14 @@ import { createStore, applyMiddleware } from "redux";
 import thunkMiddleWare from "redux-thunk";
 import axios from "axios";
 
-const initialState = { users: [], errors: [] };
+const initialState = { users: [] };
 
 const REFRESH_STATE = "REFRESH_STATE";
 
-const refreshState = (users, errors = []) => ({
+const refreshState = users => ({
   type: REFRESH_STATE,
-  users,
-  errors
+  users
 });
-
-const handleError = (dispatch, e, text) => {
-  dispatch(refreshState(null, e.response ? e.response.data.errors : []));
-  throw new Error(text);
-};
-
-export const clearErrors = dispatch => {
-  dispatch(refreshState(null, []));
-};
 
 export const updateState = () => {
   return dispatch => {
@@ -29,52 +19,34 @@ export const updateState = () => {
       .then(users => {
         dispatch(refreshState(users));
         return users;
-      })
-      .catch(e => {
-        handleError(dispatch, e, "ERROR GETTING UPDATE FROM DB");
       });
   };
 };
 
 export const addUser = user => {
   return dispatch => {
-    return axios
-      .post("/api/users", user)
-      .then(response => {
-        dispatch(updateState());
-        return response.data;
-      })
-      .catch(e => {
-        handleError(dispatch, e, "ERROR CREATING USER");
-      });
+    return axios.post("/api/users", user).then(response => {
+      dispatch(updateState());
+      return response.data;
+    });
   };
 };
 
 export const deleteUser = id => {
   return dispatch => {
-    return axios
-      .delete(`/api/users/${id}`)
-      .then(response => {
-        dispatch(updateState());
-        return response.data;
-      })
-      .then(user => {
-        clearErrors(dispatch);
-        return user;
-      })
-      .catch(e => handleError(dispatch, e, "ERROR DELETING USER"));
+    return axios.delete(`/api/users/${id}`).then(response => {
+      dispatch(updateState());
+      return response.data;
+    });
   };
 };
 
 export const updateUser = user => {
   return dispatch => {
-    return axios
-      .put(`/api/users/${user.id}`, user)
-      .then(response => {
-        dispatch(updateState());
-        return response.data;
-      })
-      .catch(e => handleError(dispatch, e, "ERROR UPDATING USER"));
+    return axios.put(`/api/users/${user.id}`, user).then(response => {
+      dispatch(updateState());
+      return response.data;
+    });
   };
 };
 
@@ -89,8 +61,7 @@ const reducer = (state = initialState, action) => {
     case REFRESH_STATE:
       return {
         ...state,
-        users: action.users || state.users,
-        errors: action.errors
+        users: action.users
       };
     default:
       return state;
