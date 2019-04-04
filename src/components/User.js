@@ -6,11 +6,11 @@ import { deleteUser, updateUser } from "../store";
 const mapDispatchToProps = dispatch => {
   return {
     handleDelete: id => dispatch(deleteUser(id)),
-    updateUser: user => dispatch(updateUser(user)),
+    updateUser: user => dispatch(updateUser(user))
   };
 };
 
-const User = ({ user, handleDelete, updateUser }) => {
+const User = ({ user, handleDelete, updateUser, errors }) => {
   return (
     <li className="list-group-item">
       <h3>{user.name}</h3>
@@ -33,6 +33,8 @@ const User = ({ user, handleDelete, updateUser }) => {
                 name: user.name,
                 bio: user.bio,
                 rank: user.rank - 1
+              }).catch(e => {
+                errors = e.response.data.errors;
               })
             }
             disabled={user.rank === 1}
@@ -48,6 +50,8 @@ const User = ({ user, handleDelete, updateUser }) => {
                 name: user.name,
                 bio: user.bio,
                 rank: user.rank + 1
+              }).catch(e => {
+                errors = e.response.data.errors;
               })
             }
           >
@@ -61,11 +65,31 @@ const User = ({ user, handleDelete, updateUser }) => {
         <button
           type="button"
           className="btn btn-danger"
-          onClick={() => handleDelete(user.id)}
+          onClick={() =>
+            handleDelete(user.id).catch(e => {
+              errors = e.response.data.errors;
+            })
+          }
         >
           Delete
         </button>
       </div>
+      {
+        errors.length > 0 ? (
+        <ul className="alert alert-danger">
+          {errors.map((error, i) => {
+            return error.errors ? (
+              error.errors.map((_error, j) => {
+                return <li key={i + j + _error.message}>{_error.message}</li>;
+              })
+            ) : (
+              <li key={i + error.message}>{error.message}</li>
+            );
+          })}
+        </ul>
+      ) : (
+        ""
+      )}
     </li>
   );
 };
